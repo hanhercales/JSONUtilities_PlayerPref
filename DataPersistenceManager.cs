@@ -8,6 +8,8 @@ public class DataPersistenceManager : MonoBehaviour
 {
     [Header("File Storage Config")] [SerializeField]
     private string fileName, tmpFileName;
+
+    [SerializeField] private bool useEncryption;
     
     private GameData gameData, tmpGameData;
 
@@ -19,7 +21,6 @@ public class DataPersistenceManager : MonoBehaviour
     {
         if (instance != null)
         {
-            Debug.LogError("Found more than one Data Persistence Manager in the Scene");
             Destroy(this.gameObject);
             return;
         }
@@ -28,8 +29,8 @@ public class DataPersistenceManager : MonoBehaviour
         
         DontDestroyOnLoad(this.gameObject);
         
-        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
-        tmpDataHandler = new FileDataHandler(Application.persistentDataPath, tmpFileName);
+        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
+        tmpDataHandler = new FileDataHandler(Application.persistentDataPath, tmpFileName, useEncryption);
     }
 
     private void OnEnable()
